@@ -15,7 +15,7 @@ class ProntoHex
     int length;
     unsigned int hexToInt(const char *hex);
     String join(unsigned int strs[], int len);
-    unsigned int convertedRaw[160];
+    unsigned int convertedRaw[256];
 };
 
 #endif

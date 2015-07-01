@@ -12,12 +12,12 @@
 
 int frequency;
 int length;
-unsigned int convertedRaw[160];
+unsigned int convertedRaw[256];
 
 void ProntoHex::convert(String prontoDataStr)
 {
   int i = 0;
-  uint16_t array[80];
+  uint16_t array[128];
   uint16_t j = 0;
 
   while (  i < strlen(prontoDataStr.c_str()) ) // .c_str() makes a char[] out of an Arduino String
@@ -39,10 +39,10 @@ void ProntoHex::convert(String prontoDataStr)
   float carrierFrequency = 1000000 / (array[1] * 0.241246);
 
   int codeLength = array[2];
-  length = codeLength*2;
   if (codeLength == 0) codeLength = array[3]; // If Sequence #1 is missing (array[2]=0000), then Burst Sequence #2 starts at array[4]
 
   int repeatCodeLength = array[3];
+  length = codeLength*2;
 
   // TODO: Handle repeat sequences
   // sequence1EndPoint = 2 * codeLength
