@@ -11,9 +11,10 @@
 #include "ProntoHex.h"
 
 int frequency;
-unsigned int* raw;
+int length;
+unsigned int convertedRaw[160];
 
-String ProntoHex::convert(String prontoDataStr)
+void ProntoHex::convert(String prontoDataStr)
 {
   int i = 0;
   uint16_t array[80];
@@ -38,6 +39,7 @@ String ProntoHex::convert(String prontoDataStr)
   float carrierFrequency = 1000000 / (array[1] * 0.241246);
 
   int codeLength = array[2];
+  length = codeLength*2;
   if (codeLength == 0) codeLength = array[3]; // If Sequence #1 is missing (array[2]=0000), then Burst Sequence #2 starts at array[4]
 
   int repeatCodeLength = array[3];
@@ -49,8 +51,7 @@ String ProntoHex::convert(String prontoDataStr)
   // secondSequence = fullSequenceConverted from sequence1EndPoint to sequence2EndPoint
 
   int index = 0;
-  unsigned int convertedRaw[codeLength * 2];
-
+  
   for (int i = 4; i < j; i++ )
   {
     int convertedToMicrosec = (1000000 * (array[i] / carrierFrequency) + 0.5);
@@ -58,8 +59,7 @@ String ProntoHex::convert(String prontoDataStr)
   }
 
   frequency = (int)(carrierFrequency / 1000);
-  return (this->join(convertedRaw, codeLength * 2));
-  raw = &convertedRaw[0];  // get the address of (=pointer to) the start of the array
+
 }
 
 // http://stackoverflow.com/questions/4951714/c-code-to-convert-hex-to-int

@@ -6,7 +6,8 @@
 
 #include "ProntoHex.h"
 
-void setup() {
+void setup()
+{
   ProntoHex ph = ProntoHex();
 
   Serial.begin(9600);
@@ -20,22 +21,22 @@ void setup() {
   Serial.println(pronto);
   Serial.println("");
 
-  // Convert the Pronto Hex string to raw timings.
-  String converted = ph.convert(pronto);
+  // Convert the Pronto Hex string to raw timings. In reality, we would not just print these but send them using an infrared sending library
+  ph.convert(pronto);
+  String converted = ph.join(ph.convertedRaw, ph.length);
   Serial.println("Converted to raw timings:");
   Serial.println(converted);
   Serial.println("");
 
-  // FIXME:
-  // In reality, this would most likely not be printed but sent with an infrared remote control sending library.
-  // For that it would be better if we could access convertedRaw (an array of ints for the timings) rather than the String above.
-  // But C++ makes it really hard to return an array of variable length from a method, something that is trivial in Python.
-  // It insists on pointers, which I still don't like. Feel free to help.
-  unsigned int *array = ph.raw;
-  Serial.println("Int of the first timing (does not work; FIXME):");
-  Serial.println((int)&array); // Does not work
+  Serial.println("Contents of the convertedRaw array:");
+  for (int i = 0; i < ph.length; i++)
+  {
+    Serial.print(ph.convertedRaw[i]);
+    Serial.print(" ");
+  }
   Serial.println("");
-
+  Serial.println("");
+  
   Serial.println("Frequency:");
   Serial.println(ph.frequency); // Works
 }

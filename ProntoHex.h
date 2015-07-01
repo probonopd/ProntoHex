@@ -10,11 +10,12 @@
 class ProntoHex
 {
   public:
-    String convert(String hexcode);
+    void convert(String hexcode);
     int frequency;
+    int length;
     unsigned int hexToInt(const char *hex);
     String join(unsigned int strs[], int len);
-    unsigned int *raw; // Should be a "pointer to an array" - "you can return a pointer to an array by specifying the array's name without an index."
+    unsigned int convertedRaw[160];
 };
 
 #endif
