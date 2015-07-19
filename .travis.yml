@@ -3,5 +3,9 @@ sudo: false
 before_install:
   - source <(curl -SLs https://raw.githubusercontent.com/adafruit/travis-ci-arduino/master/install.sh)
 script:
+  - arduino --board arduino:avr:uno --save-prefs
+  - arduino --verify $PWD/examples/ConvertProntoHex/ConvertProntoHex.ino
+  - arduino --board arduino:sam:arduino_due_x --save-prefs
+  - arduino --verify $PWD/examples/ConvertProntoHex/ConvertProntoHex.ino
   - arduino --board esp8266:esp8266:generic --save-prefs
   - arduino --verify $PWD/examples/ConvertProntoHex/ConvertProntoHex.ino
